@@ -18,7 +18,7 @@ export const baseRequest = (method,endPoint,requestBody = null) => {
           },
     }
 
-    fetch(url,options,options).then(response => {
+    return fetch(url,options,options).then(response => {
         return response.json();
     }).catch((error) => {
         return error;

@@ -1,15 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import  {UserForm} from "../../component/formBuilder/formBuilder";
 import {baseRequest,apiMethod} from "../../helper/apiHelper";
+import { useParams} from "react-router";
 
 const User = (props) => {
   const [initialvalue, setInitialvalue] = useState({
     name: '',
     dob: '',
     salary: '',
-    skills: [], 
+    skills: false, 
   });
-  const { match: { params } } = props;
+  let { id } = useParams();
   const baseUrl = '/employee';
   const getUserById = (id) =>{
     const url = `${baseUrl}/${id}`;
@@ -22,14 +23,14 @@ const User = (props) => {
 
 
   const saveUser = (value) => {
-    if(params.id){
+    if(id){
       baseRequest(apiMethod.post,baseUrl,value).then((response) => {
         alert("user updated successfully");
       }).catch((error)=>{
         console.error("error",error.message);
       })
     } else {
-      let url = `${baseUrl}/${params.id}`;
+      let url = `${baseUrl}/${id}`;
       baseRequest(apiMethod.put,url,value).then((response) => {
         alert("user saved successfully ");
       }).catch((error)=>{
@@ -40,8 +41,8 @@ const User = (props) => {
   }
 
   useEffect(() => {
-    if(params.id){
-      getUserById(params.id);
+    if(id){
+      getUserById(id);
     }
   }, [])
 
